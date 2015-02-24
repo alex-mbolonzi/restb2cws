@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<methodCall>
+	<methodName>msisdnValidation</methodName>
+	<params>
+		<param>
+			<value>
+				<struct>
+					<member>
+						<name>msisdn</name>
+						<value>
+							<string>254723491710</string>
+						</value>
+					</member>
+					<member>
+						<name>mno</name>
+						<value>
+							<string>saf</string>
+						</value>
+					</member>
+					<member>
+						<name>country_code</name>
+						<value>
+							<string>254</string>
+						</value>
+					</member>
+					<member>
+						<name>transaction_id</name>
+						<value>
+							<int>304</int>
+						</value>
+					</member>
+				</struct>
+			</value>
+		</param>
+	</params>
+</methodCall>
