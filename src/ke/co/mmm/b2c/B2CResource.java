@@ -38,7 +38,7 @@ import org.apache.log4j.PropertyConfigurator;
 //import ke.co.mmm.b2c.entity.MethodCall;
 
 @XmlRootElement
-@Path("/B2C/")
+@Path("/NW/")
 public class B2CResource {
     
     /* Get actual class name to be printed on */
@@ -101,7 +101,7 @@ public class B2CResource {
 //    }
     
     @POST
-    @Path("actionHandler")
+    @Path("poapay")
 //    @Consumes("application/x-www-form-urlencoded")
 //    @Produces("text/plain")
     @Consumes("text/xml")
@@ -133,17 +133,17 @@ public class B2CResource {
         String method = valueTwo.getString();
 //        String method = call.getMethodName();
                 
-        String mobile = null;
-        String mno = null;
-        String country_code = null;
-        String transactionId = null;
-        String destMobile = null;
-        String amount = null;
+        String mobile = "0";
+        String mno = "SAFKE";
+        String country_code = "254";
+        String transactionId = "0";
+        String destMobile = "0";
+        String amount = "0";
         int sourceID = 0;
-        String source = null;
-        String creditBankAcc = null;
-        String bankCode = null;
-        String beneficiary_name = null;
+        String source = "0";
+        String creditBankAcc = "0";
+        String bankCode = "0";
+        String beneficiary_name = "0";
         
         int arraySize = memberList.size();
         
@@ -168,24 +168,14 @@ public class B2CResource {
                      break;
                 case "transaction_id" : transactionId = value2.getString();
                      break;
+//                case "discount_coupon" : transactionId = value2.getString();
+//                	break;
                 case "dest_msisdn" : destMobile = value2.getString();
-
-            switch (method) {
-            
-                        case "bulkcard2mobile":
-
-                    MethodCall.Params.Param.Value.Struct.Member.Value2.Struct2 struct2 = value2.getStruct();
-
-                    memberList2 = struct2.getMember();
-                default:
-                    destMobile = value2.getString();
-                break;
-            }
                      break;
                 case "beneficiary_name" :
                 	beneficiary_name = value2.getString();
                 	break;
-                case "amount" : 
+                case "kes_amount" : 
                 	amount = value2.getString();
                      break;
                 case "source_id" : 
@@ -194,7 +184,7 @@ public class B2CResource {
                 case "source" : 
                 	source = value2.getString();
                      break;
-                case "dest_bank_account" : 
+                case "bank_account" : 
                 	creditBankAcc = value2.getString();
                      break;
                 case "bank_code" : 
@@ -203,6 +193,7 @@ public class B2CResource {
             }
             
          }
+//        }
         
         log.info("method : " + method);
         
@@ -217,7 +208,7 @@ public class B2CResource {
                 
                 break;
             
-            case "card2mobile":
+            case "sendMoney":
                 
                 Card2Mobile b2c = new Card2Mobile();
                                 
@@ -226,46 +217,6 @@ public class B2CResource {
                 
                 break;
 
-        case "bulkcard2mobile":
-
-        String bulkDestMobile = null;
-
-        String bulkAmount = null;
-        
-        int arraySize2 = memberList2.size();
-
-        if (arraySize2 > 1 ) {
-
-            for (int x=0; x<arraySize2; x++){
-
-                MethodCall.Params.Param.Value.Struct.Member.Value2.Struct2.Member2 member2 = memberList2.get(x);
-
-                bulkDestMobile = member2.getName();
-
-                MethodCall.Params.Param.Value.Struct.Member.Value2.Struct2.Member2.Value3 value3 = member2.getValue();
-
-                bulkAmount = value3.getString();
-
-                Card2Mobile b2cBulk = new Card2Mobile();
-                                
-                        response = b2cBulk.card2Mobile(mno,country_code,transactionId + "B" + x,
-                                          mobile,bulkDestMobile,bulkAmount,sourceID,source,beneficiary_name);
-            }
-
-        }
-
-        break;
-                
-            case "card2bankaccount":
-                
-            	Card2BankAcc c2b = new Card2BankAcc();
-            	
-            	response = c2b.card2Acc(bankCode, country_code, transactionId, 
-            			mobile, creditBankAcc, amount, sourceID, source,beneficiary_name);
-                break;
-//            case "bankAccountValidation":
-//                
-//                break;
         }
         
         }
